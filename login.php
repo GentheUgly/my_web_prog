@@ -1,22 +1,27 @@
+<?php
+require_once 'User.php';
+
+// Beispiel: ein Benutzerobjekt, das bereits existiert (normalerweise aus der Datenbank)
+$existingUser = new User("test@example.com", "passwort123", "Max", "Mustermann");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Login-Methode des Benutzers aufrufen
+    $existingUser->login($email, $password);
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <style>
-        body {
-            background-color: green; /* Hintergrundfarbe setzen */
-        }
-    </style>
+    <title>Login</title>
 </head>
 <body>
-    <h1>Welcome to Our Website</h1>
-    <p>This is the homepage. You can navigate to other pages using the links below.</p>
-
-    <!-- Login-Formular -->
-    <h2>Login</h2>
+    <h1>Login</h1>
     <form action="login.php" method="POST">
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" required><br>
@@ -27,10 +32,6 @@
         <input type="submit" value="Login">
     </form>
 
-    <hr>
-    <a href="about.php">About Us</a> | 
-    <a href="contact.php">Contact Us</a> |
     <a href="register.php">Noch keinen Account? Hier registrieren</a>
-
 </body>
 </html>
