@@ -2,13 +2,14 @@
 require_once 'User.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = uniqid(); // Generiere eine eindeutige ID
     $email = $_POST['email'];
     $password = $_POST['password'];
     $vorname = $_POST['vorname'];
     $nachname = $_POST['nachname'];
 
     // Neues Benutzerobjekt erstellen und registrieren
-    $user = new User($email, $password, $vorname, $nachname);
+    $user = new User($id, $email, $password, $vorname, $nachname);
     $user->register();
 }
 ?>
