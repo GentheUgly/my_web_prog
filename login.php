@@ -1,37 +1,54 @@
 <?php
-require_once 'User.php';
+class User {
+    private $id;
+    private $email;
+    private $password;
+    private $vorname;
+    private $nachname;
 
-// Beispiel: ein Benutzerobjekt, das bereits existiert (normalerweise aus der Datenbank)
-$existingUser = new User("test@example.com", "passwort123", "Max", "Mustermann");
+    // Constructor für die Klasse User
+    public function __construct($id, $email, $password, $vorname, $nachname) {
+        $this->id = $id;
+        $this->email = $email;
+        $this->password = password_hash($password, PASSWORD_DEFAULT); // Passwort sicher speichern
+        $this->vorname = $vorname;
+        $this->nachname = $nachname;
+    }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    // Methode zum Registrieren eines Benutzers
+    public function register() {
+        // Hier würde der Code stehen, um die Daten in einer Datenbank zu speichern
+        // z.B. INSERT INTO users (id, email, password, vorname, nachname) VALUES (...)
+        echo "Benutzer erfolgreich registriert: " . $this->vorname . " " . $this->nachname . " (ID: " . $this->id . ")";
+    }
 
-    // Login-Methode des Benutzers aufrufen
-    $existingUser->login($email, $password);
+    // Methode zum Einloggen eines Benutzers
+    public function login($email, $password) {
+        // Hier würde der Code stehen, um die Daten aus der Datenbank zu validieren
+        // SELECT * FROM users WHERE email = $email
+        // Dann mit password_verify() das eingegebene Passwort mit dem gespeicherten vergleichen
+        if ($this->email == $email && password_verify($password, $this->password)) {
+            echo "Login erfolgreich! Willkommen zurück, " . $this->vorname . " " . $this->nachname . " (ID: " . $this->id . ")";
+        } else {
+            echo "Ungültige E-Mail oder Passwort.";
+        }
+    }
+
+    // Optionale Getter und Setter Methoden, falls benötigt
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getVorname() {
+        return $this->vorname;
+    }
+
+    public function getNachname() {
+        return $this->nachname;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form action="login.php" method="POST">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-
-        <label for="password">Passwort:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <input type="submit" value="Login">
-    </form>
-
-    <a href="register.php">Noch keinen Account? Hier registrieren</a>
-</body>
-</html>
